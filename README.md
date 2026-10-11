@@ -1,3 +1,56 @@
+
+## Lokalny PostgreSQL
+
+Baza danych CodeLobby działa w Dockerze, niezależnie od innych projektów.
+
+### Wymagania
+- Docker Desktop
+- Docker Compose
+
+### Pierwsze uruchomienie
+
+Skopiuj przykładową konfigurację:
+
+    Copy-Item .env.example .env
+
+W pliku `.env` ustaw własne hasło PostgreSQL.
+
+Uruchom bazę:
+
+    docker compose --env-file .env -f local/compose.yaml up -d
+
+### Sprawdzenie statusu
+
+    docker compose --env-file .env -f local/compose.yaml ps
+
+Kontener powinien mieć status `healthy`.
+
+### Połączenie z bazą
+
+    docker compose --env-file .env -f local/compose.yaml exec postgres psql -U codelobby -d codelobby
+
+### Zatrzymanie bazy
+
+    docker compose --env-file .env -f local/compose.yaml stop
+
+### Ponowne uruchomienie
+
+    docker compose --env-file .env -f local/compose.yaml start
+
+### Konfiguracja połączenia
+
+Host: 127.0.0.1
+Port: 55433
+Database: codelobby
+Username: codelobby
+Password: wartość z lokalnego pliku .env
+
+Dane PostgreSQL są przechowywane w osobnym wolumenie Dockera.
+
+Nie używaj `docker compose down -v`, jeśli chcesz zachować dane.
+
+
+
 # CodeLobby Infrastructure
 
 Infrastructure and deployment configuration for **CodeLobby**.
